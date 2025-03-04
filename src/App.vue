@@ -7,3 +7,9 @@ import ListView from './views/ListView.vue'
     <ListView />
   </div>
 </template>
+
+<style>
+html, body {
+  font-family: 'Roboto', sans-serif;
+}
+</style>
