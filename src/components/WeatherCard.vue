@@ -1,3 +1,24 @@
+<script setup lang="ts">
+import { temperatureConverter, Temperature } from "../utils/temperature-converter";
+
+const props = defineProps<{
+  weather: {
+    city: { name: string; id: string };
+    temperature: {
+      value: number;
+      description: string;
+      icon: string;
+      unit: string;
+    };
+  };
+}>();
+
+const handleClick = () => {
+  const url = `https://openweathermap.org/city/${props.weather.city.id}`;
+  window.open(url, "_blank");
+};
+</script>
+
 <template>
   <div
     @click="handleClick"
@@ -5,7 +26,15 @@
   >
     <div>
       <div class="font-semibold text-lg">{{ weather.city.name }}</div>
-      <div class="text-sm">{{ weather.temperature.value }} °C</div>
+      <div class="text-sm">
+        {{
+          temperatureConverter(
+            weather.temperature.value,
+            Temperature.Kelvin,
+            Temperature.Celsius,
+          )
+        }}
+      </div>
     </div>
     <div class="flex items-center gap-2">
       <span class="capitalize">{{ weather.temperature.description }}</span>
@@ -17,17 +46,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-const props = defineProps<{
-  weather: {
-    city: { name: string; id: string };
-    temperature: { value: number; description: string; icon: string };
-  };
-}>();
-
-const handleClick = () => {
-  const url = `https://openweathermap.org/find?q=${props.weather.city.name}`;
-  window.open(url, '_blank');
-};
-</script>

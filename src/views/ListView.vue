@@ -1,3 +1,21 @@
+<script setup lang="ts">
+import { ref, onMounted } from "vue";
+import WeatherCard from "../components/WeatherCard.vue";
+import weatherService from "../services/weather.service";
+
+const cities = ref([
+  { name: "Warsaw", id: "756135" },
+  { name: "London", id: "2643743" },
+  { name: "New York", id: "5128581" },
+]);
+
+const weatherData = ref([]);
+
+onMounted(async () => {
+  weatherData.value = await weatherService.getWeatherForCities(cities.value);
+});
+</script>
+
 <template>
   <section class="max-w-3xl mx-auto p-4">
     <h1 class="text-2xl font-bold mb-4">Weather App</h1>
@@ -10,35 +28,3 @@
     </div>
   </section>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-import WeatherCard from '../components/WeatherCard.vue'
-
-const weatherData = ref([
-  {
-    city: { name: 'London', id: '2643743' },
-    temperature: {
-      value: 12,
-      description: 'clear sky',
-      icon: 'http://openweathermap.org/img/w/01d.png',
-    },
-  },
-  {
-    city: { name: 'Berlin', id: '2950159' },
-    temperature: {
-      value: 7,
-      description: 'few clouds',
-      icon: 'http://openweathermap.org/img/w/02d.png',
-    },
-  },
-  {
-    city: { name: 'New York', id: '5128581' },
-    temperature: {
-      value: 16,
-      description: 'scattered clouds',
-      icon: 'http://openweathermap.org/img/w/03d.png',
-    },
-  },
-])
-</script>
